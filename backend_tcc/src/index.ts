@@ -74,6 +74,10 @@ app.use('/api', routes);
 app.get('/', (req, res) => {
   res.json({ status: 'ok' });
 });
+
+app.get('/test', (req, res) => {
+  res.json({ ok: true, message: 'backend correcto' });
+});
 // 404 Handler
 app.use((req: Request, res: Response) => {
   res.status(404).json({
