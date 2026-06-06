@@ -90,11 +90,10 @@ export class UsuarioModel {
     if (!passwordMatch) return null;
 
     const token = generateToken({
-      id: usuario.id,
+      id: usuario.id!,
       correo: usuario.correo,
       rol: usuario.rol,
     });
-
     return {
       token,
       usuario: sanitizeUsuario(usuario),

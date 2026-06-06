@@ -3,17 +3,21 @@ import { JWTPayload } from '../types/index.js';
 
 export function generateToken(payload: Omit<JWTPayload, 'iat' | 'exp'>) {
   const secret = process.env.JWT_SECRET || 'your_secret_key';
-  const expiresIn = process.env.JWT_EXPIRES_IN || '7d';
 
-  return jwt.sign(payload, secret, { expiresIn });
+  return jwt.sign(
+    payload,
+    secret,
+    {
+      expiresIn: '7d'
+    } as any
+  );
 }
 
 export function verifyToken(token: string): JWTPayload | null {
   try {
     const secret = process.env.JWT_SECRET || 'your_secret_key';
-    const decoded = jwt.verify(token, secret) as JWTPayload;
-    return decoded;
-  } catch (error) {
+    return jwt.verify(token, secret) as JWTPayload;
+  } catch {
     return null;
   }
 }
