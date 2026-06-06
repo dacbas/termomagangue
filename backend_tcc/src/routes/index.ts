@@ -4,15 +4,15 @@ import { authMiddleware, adminMiddleware } from '../middleware/auth.js';
 
 const router = Router();
 
-// Rutas de autenticación (públicas)
-router.post('/auth/registro', UsuarioController.registro);
+// AUTH
 router.post('/auth/login', UsuarioController.login);
+router.post('/auth/registro', UsuarioController.registro);
 
-// Rutas de usuarios (protegidas)
+// USUARIOS
 router.get('/usuarios/me', authMiddleware, UsuarioController.obtenerPerfil);
 router.get('/usuarios', authMiddleware, adminMiddleware, UsuarioController.listar);
 
-// Rutas de simulaciones (protegidas)
+// SIMULACIONES
 router.post('/simulaciones', authMiddleware, SimulacionController.crear);
 router.get('/simulaciones/:id', authMiddleware, SimulacionController.obtener);
 router.get('/simulaciones', authMiddleware, SimulacionController.listar);
