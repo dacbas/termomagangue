@@ -70,6 +70,10 @@ app.get('/health', (req: Request, res: Response) => {
 
 // API Routes
 app.use('/api', routes);
+
+app.get('/', (req, res) => {
+  res.json({ status: 'ok' });
+});
 // 404 Handler
 app.use((req: Request, res: Response) => {
   res.status(404).json({
