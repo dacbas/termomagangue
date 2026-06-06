@@ -11,8 +11,7 @@ import { testConnection, initializeDatabase } from './database/index.js';
 dotenv.config();
 
 const app: Express = express();
-const PORT = process.env.PORT || 5000;
-
+const PORT = process.env.PORT || 10000;
 // Swagger configuration
 const swaggerOptions = {
   definition: {
