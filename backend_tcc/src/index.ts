@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
-import routes from './routes/index.js';
+import routes from './routes';
 import { errorHandler } from './middleware/auth.js';
 import { testConnection, initializeDatabase } from './database/index.js';
 
@@ -49,7 +49,7 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: '*',
   credentials: true,
 }));
 app.use(express.json());
@@ -68,6 +68,7 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // API Routes
+console.log("📌 API routes cargando...");
 app.use('/api', routes);
 
 app.get('/', (req, res) => {

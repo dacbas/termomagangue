@@ -3,7 +3,7 @@ import { UsuarioController, SimulacionController } from '../controllers/index.js
 import { authMiddleware, adminMiddleware } from '../middleware/auth.js';
 
 const router = Router();
-
+console.log("📌 routes index cargado");
 // AUTH
 router.post('/auth/login', UsuarioController.login);
 router.post('/auth/registro', UsuarioController.registro);
