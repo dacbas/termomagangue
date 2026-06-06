@@ -4,7 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
-import routes from './routes';
+import routes from './routes/index';
 import { errorHandler } from './middleware/auth.js';
 import { testConnection, initializeDatabase } from './database/index.js';
 
