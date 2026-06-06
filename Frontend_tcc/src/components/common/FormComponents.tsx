@@ -13,15 +13,19 @@ export const Card: React.FC<CardProps> = ({ children, className = '' }) => {
   );
 };
 
+// ================= INPUT =================
+
 interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  icon?: React.ReactNode;
 }
 
 export const Input: React.FC<InputProps> = ({
   label,
   error,
+  icon,
   className = '',
   ...props
 }) => {
@@ -32,11 +36,30 @@ export const Input: React.FC<InputProps> = ({
           {label}
         </label>
       )}
-      <input className={`input ${className}`} {...props} />
-      {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
+
+      <div className="relative">
+        {icon && (
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            {icon}
+          </div>
+        )}
+
+        <input
+          className={`input ${icon ? 'pl-10' : ''} ${className}`}
+          {...props}
+        />
+      </div>
+
+      {error && (
+        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
+
+// ================= SELECT =================
 
 interface SelectProps
   extends React.SelectHTMLAttributes<HTMLSelectElement> {
@@ -59,6 +82,7 @@ export const Select: React.FC<SelectProps> = ({
           {label}
         </label>
       )}
+
       <select className={`input ${className}`} {...props}>
         <option value="">Seleccionar...</option>
         {options.map((opt) => (
@@ -67,10 +91,17 @@ export const Select: React.FC<SelectProps> = ({
           </option>
         ))}
       </select>
-      {error && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>}
+
+      {error && (
+        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+          {error}
+        </p>
+      )}
     </div>
   );
 };
+
+// ================= BUTTON =================
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger';
@@ -88,7 +119,8 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   ...props
 }) => {
-  const baseClasses = 'btn font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseClasses =
+    'btn font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variantClasses = {
     primary: 'btn-primary',
@@ -120,6 +152,8 @@ export const Button: React.FC<ButtonProps> = ({
   );
 };
 
+// ================= ALERT =================
+
 interface AlertProps {
   type: 'success' | 'error' | 'warning' | 'info';
   title?: string;
@@ -127,7 +161,12 @@ interface AlertProps {
   onClose?: () => void;
 }
 
-export const Alert: React.FC<AlertProps> = ({ type, title, children, onClose }) => {
+export const Alert: React.FC<AlertProps> = ({
+  type,
+  title,
+  children,
+  onClose,
+}) => {
   const typeClasses = {
     success: 'bg-green-50 dark:bg-green-900 border-green-200 dark:border-green-800',
     error: 'bg-red-50 dark:bg-red-900 border-red-200 dark:border-red-800',
@@ -149,6 +188,7 @@ export const Alert: React.FC<AlertProps> = ({ type, title, children, onClose }) 
           {title && <h3 className="font-bold mb-1">{title}</h3>}
           <p>{children}</p>
         </div>
+
         {onClose && (
           <button
             onClick={onClose}
@@ -162,11 +202,15 @@ export const Alert: React.FC<AlertProps> = ({ type, title, children, onClose }) 
   );
 };
 
+// ================= LOADING SPINNER =================
+
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
-export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ size = 'md' }) => {
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+  size = 'md',
+}) => {
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-8 h-8',

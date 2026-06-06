@@ -6,7 +6,7 @@ class APIService {
 
   constructor() {
     this.api = axios.create({
-      baseURL: '/api',
+      baseURL: 'https://termomagangue.onrender.com/api', 
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
