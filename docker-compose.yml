@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: termomagangue-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: termomagangue
+      MYSQL_USER: termomagangue
+      MYSQL_PASSWORD: termomagangue_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - termomagangue
+
+  backend:
+    build:
+      context: ./backend_tcc
+      dockerfile: Dockerfile
+    container_name: termomagangue-backend
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DB_HOST: mysql
+      DB_USER: termomagangue
+      DB_PASSWORD: termomagangue_pass
+      DB_NAME: termomagangue
+      DB_PORT: 3306
+      JWT_SECRET: your_super_secret_key_change_in_production
+      JWT_EXPIRES_IN: 7d
+      CORS_ORIGIN: http://localhost:3000
+    ports:
+      - "5000:5000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./backend_tcc:/app
+      - /app/node_modules
+    command: npm run dev
+    networks:
+      - termomagangue
+
+  frontend:
+    build:
+      context: ./Frontend_tcc
+      dockerfile: Dockerfile
+    container_name: termomagangue-frontend
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./Frontend_tcc:/app
+      - /app/node_modules
+    command: npm run dev
+    networks:
+      - termomagangue
+
+volumes:
+  mysql_data:
+
+networks:
+  termomagangue:
+    driver: bridge
